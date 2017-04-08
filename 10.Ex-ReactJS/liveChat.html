@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <style>
+        #message {
+            width: 100%;
+            margin: 10px 0 10px 0;
+            display: block;
+            box-sizing: border-box;
+            font-size: 1.2rem;
+        }
+        .messageContainer{ border: 1px solid blue; margin: 5px;}
+        button{ margin: 0 5px; }
+        #root{ width: 1080px; }
+    </style>
+    <script src="https://fb.me/react-15.3.0.min.js"></script>
+    <script src="https://fb.me/react-dom-15.3.0.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/3.3.0/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/reactfire/1.0.0/reactfire.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script>
+    var config = {
+        apiKey: "AIzaSyBenpa0HaIOwkDdvb0SC9LfvJVsKGXvqos",
+        // Only needed if using Firebase Realtime Database (which we will be in this example)
+        databaseURL: "https://chat-25654.firebaseio.com/"
+    };
+
+    firebase.initializeApp(config);
+</script>
+<script src="../dist/10.Ex-ReactJS/chat.js"></script>
+<script type="text/babel">
+    ReactDOM.render(<Chatbox message="Test message" author="Nameless Author" />, document.getElementById("root"));
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!--<script src="blog.js"></script>-->
+
+</head>
+<body>
+<h1>All Posts</h1>
+<button id="btnLoadPosts">Load</button>
+<select id="posts"></select>
+<button id="btnViewPost">View</button>
+
+<h1 id="post-title">Post Details</h1>
+<ul id="post-body"></ul>
+<h2>Comments</h2>
+<ul id="post-comments"></ul>
+<script>
+    $(document).ready(function() {
+        const kinveyAppId = "kid_SkMGUHjZe";
+        const serviceUrl = "https://baas.kinvey.com/appdata/" + kinveyAppId;
+        const kinveyUsername = "peter";
+        const kinveyPassword = "p";
+        const base64auth = btoa(kinveyUsername + ":" + kinveyPassword);
+        const authHeaders = { "Authorization": "Basic " + base64auth };
+        $("#btnLoadPosts").click(loadPostsClick);
+        $("#btnViewPost").click(viewPostClick);
+        function loadPostsClick() {
+            let loadPostRequest = {
+                url: serviceUrl + "/posts",
+                headers: authHeaders
+            };
+            $.ajax(loadPostRequest)
+                    .then(displayPosts)
+                    .catch(displayError);
+        }
+        function viewPostClick() {
+            let selectedPostId=$('#posts').val();
+            let postRequest= {
+                url: serviceUrl + "/posts/" + selectedPostId,
+                headers: authHeaders
+            };
+            $.ajax(postRequest)
+                    .then(displayPost)
+                    .catch(displayError);
+            let commentRequest= {
+                url: serviceUrl + `/comments/?query={"post_id":"${selectedPostId}"}`,
+                headers: authHeaders
+            };
+            $.ajax(commentRequest)
+                    .then(displayComment)
+                    .catch(displayError);
+
+        }
+        function displayComment(commentsArray) {
+            let comments=$("#post-comments");
+            comments.empty();
+            for (let comment of commentsArray) {
+                let commentItem = $("<li>")
+                        .text(comment.text);
+                comments
+                        .append(commentItem);
+            }
+        }
+
+        function displayPost(post) {
+            $('#post-title').text(post.title);
+            $('#post-body').text(post.body);
+        }
+        function displayPosts(posts) {
+            let postSelector=$('#posts');
+            postSelector.empty();
+            for (let post of posts) {
+                let option = $("<option>").text(post.title).val(post._id);
+                postSelector.append(option);
+            }
+        }
+        function displayError(error) {
+            let errDiv = $("<div>").text(`Error ${error.status} : (${error.statusText})`);
+            $(document.body).prepend(errDiv);
+            setTimeout(function () {
+                $(errDiv).fadeOut(function () {
+                    $(errDiv).remove();
+                });
+            }, 3000);
+        }
+    });
+</script>
+</body>
+</html>

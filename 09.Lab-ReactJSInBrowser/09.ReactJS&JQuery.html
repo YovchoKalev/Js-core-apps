@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ReactJS Forms</title>
+    <script src="https://unpkg.com/react/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone"></script>
+    <style>
+    </style>
+</head>
+
+<body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script type="text/babel">
+    let Hello = React.createClass({
+        render: function () {
+            return <p>Hello, {this.props.name}</p>
+        }
+    });
+    let div = $('<div>').appendTo(document.body);
+        ReactDOM.render(<Hello name='Maria' />, div[0]);
+</script>
+</body>
+</html>
+

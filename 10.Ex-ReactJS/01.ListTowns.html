@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Town</title>
+    <script src="https://unpkg.com/react/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+</head>
+<body>
+<div id="root"></div>
+</body>
+<script type="text/babel">
+    function listTowns(selector) {
+        let listTowns=[];
+        let App=React.createClass({
+            render: function () {
+                return (<div>
+                    <Form/>
+                    <List/>
+                </div>)
+            }
+        });
+        let List = React.createClass({
+            render: function() {
+                let list = [];
+                for(let i in listTowns){
+                    list.push(<li key={i}>{listTowns[i]}</li>)
+                }
+                return <ul>{list}</ul>;
+            }
+        });
+        let Form=React.createClass({
+            getInitialState: function() {
+                return { list: this.props.towns}
+            },
+            handleFormSubmit(event){
+                event.preventDefault();
+                listTowns=[];
+                this.state.list=$(event.target).find('input[type=text]').val();
+                let item = this.state.list.split(', ');
+                for (let i of item){
+                    listTowns.push(i);
+                }
+                ReactDOM.render(<App/>,document.getElementById(selector))
+            },
+            render: function () {
+                return (<form onSubmit={this.handleFormSubmit}>
+                    <input type="text" placeholder="Enter text"/>
+                    <input type="submit" value="Submit"/>
+                </form>)
+            }
+        });
+        ReactDOM.render(
+            <App/>,
+            document.getElementById(selector)
+        );
+        $('form').find('input[type=text]').val("Sofia, Belgrad, Athens");
+        $('form').find('input[type=submit]').trigger('click');
+    }
+    listTowns('root');
+</script>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ReactJS Listings</title>
+    <script src="https://unpkg.com/react/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/babel-standalone"></script>
+</head>
+
+<body>
+<div id="root" />
+<script type="text/babel">
+/*    let List = React.createClass({
+        render: function() {
+            let items = [];
+            for (let i in this.props.items)
+                items.push(<li key={i}>{this.props.items[i]}</li>);
+            return <ul>{items}</ul>;
+        }
+    });
+    let towns = ["Sofia", "Varna", "Plovdiv"];
+    let list = <List items={towns} />;
+*/
+
+/*
+let List = React.createClass({
+    render: function() {
+        let items = this.props.items.map(function(item, i) {
+            return <li key={i}>{item}</li>;
+        });
+        return <ul>{items}</ul>;
+    }
+});
+let list = <List items={["Sofia", "Varna", "Plovdiv"]} />;
+*/
+
+//ReactDOM.render(List, document.getElementById('root'));
+
+let List = React.createClass({
+    render: function () {
+        return (
+                <ul>
+                    {this.props.items.map(function (item, i) {
+                        return <li key={i}>{item}</li>;
+                    })}
+                </ul>
+        )
+    }
+});
+ReactDOM.render(
+        <List items={["Sofia", "Varna", "Plovdiv"]} />,
+    document.getElementById('root'));
+
+</script>
+</body>
+</html>
